@@ -1,0 +1,55 @@
+name: 🚀 Auto Deploy to GitHub Pages
+
+# Trigger quando há push para main
+on:
+  push:
+    branches:
+      - main
+  # Permitir acionamento manual
+  workflow_dispatch:
+
+# Permissões necessárias
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Evitar múltiplos deploys simultâneos
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: 📤 Deploy para GitHub Pages
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # 1. Clonar repositório
+      - name: 📥 Clonar repositório
+        uses: actions/checkout@v4
+
+      # 2. Configurar GitHub Pages
+      - name: ⚙️ Configurar GitHub Pages
+        uses: actions/configure-pages@v4
+
+      # 3. Upload dos arquivos para GitHub Pages
+      - name: 📤 Upload para GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      # 4. Deploy
+      - name: 🚀 Deploy para GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      # 5. Notificar sucesso
+      - name: ✅ Deploy concluído
+        run: |
+          echo "✅ Deploy realizado com sucesso!"
+          echo "🌐 URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
