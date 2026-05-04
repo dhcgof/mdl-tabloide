@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anúncios com Imagens - MDL Móveis do Lar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            font-style: italic;
+            opacity: 0.95;
+        }
+
+        .instrucoes {
+            background: #fff3cd;
+            border: 2px solid #ff9800;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .instrucoes strong {
+            color: #ff6600;
+        }
+
+        .tabloide-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tabloide-titulo {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ff6600;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .pagina-info {
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #666;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f5f5f5;
+            border-left: 4px solid #ff6600;
+        }
+
+        .imagem-placeholder {
+            background: linear-gradient(135deg, #ddd 0%, #bbb 100%);
+            border: 2px dashed #999;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .anuncios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .anuncio-card {
+            background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%);
+            border: 2px solid #ff6600;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .anuncio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(255, 102, 0, 0.3);
+        }
+
+        .card-numero {
+            font-size: 0.85em;
+            color: #999;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .card-nome {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .card-marca {
+            font-size: 0.9em;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .card-specs {
+            font-size: 0.85em;
+            color: #777;
+            background: #f5f5f5;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .card-preco {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ff0000;
+            margin: 12px 0;
+            text-align: center;
+        }
+
+        .card-parcelamento {
+            font-size: 0.95em;
+            color: #0066ff;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .card-contato {
+            font-size: 0.85em;
+            background: #f0f0f0;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+            color: #555;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .download-section {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            margin-top: 50px;
+        }
+
+        .download-section h2 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: white;
+            color: #4CAF50;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+            border: 2px solid white;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 50px;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+
+        .produtos-por-categoria {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #ff6600;
+            border-radius: 4px;
+        }
+
+        .categoria {
+            margin: 10px 0;
+            font-size: 0.95em;
+        }
+
+        .categoria strong {
+            color: #ff6600;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .anuncio-card {
+                page-break-inside: avoid;
+            }
+        }
+
+        .icon {
+            font-size: 1.3em;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 ANÚNCIOS INDIVIDUAIS DE PRODUTOS</h1>
+            <p>MDL - Móveis do Lar | Maio de 2026 • Ofertas Imperdíveis!</p>
+        </div>
+
+        <div class="instrucoes">
+            <strong>ℹ️ COMO USAR ESTE ARQUIVO:</strong><br><br>
+            ✅ <strong>Para visualizar as imagens dos produtos:</strong> Você terá que copiar as imagens do PDF original (páginas 1 e 2) e inserir nos locais indicados abaixo. As imagens devem ser do tabloide original que contém as fotos dos produtos.<br><br>
+            ✅ <strong>Para imprimir:</strong> Use o botão de impressão do seu navegador (Ctrl+P ou Cmd+P). O layout foi otimizado para impressão em A4.<br><br>
+            ✅ <strong>Para usar em Word:</strong> Selecione todo o conteúdo, copie (Ctrl+C) e cole no Word. Os anúncios em cards ficarão bem formatados.<br><br>
+            ✅ <strong>Documentos adicionais:</strong> Você também recebeu um arquivo em Markdown (ANUNCIOS_COMPLETOS.md) com todo o conteúdo dos anúncios pronto para copiar e colar.
+        </div>
+
+        <!-- PÁGINA 1 DO TABLOIDE -->
+        <div class="tabloide-section">
+            <div class="tabloide-titulo">📄 PÁGINA 1 DO TABLOIDE ORIGINAL</div>
+
+            <div class="pagina-info">
+                🖼️ INSIRA A IMAGEM DA PÁGINA 1 AQUI 🖼️
+            </div>
+
+            <div class="imagem-placeholder">
+                Cole a imagem da página 1 do tabloide aqui<br>
+                (Tamanho: Máximo 800px de largura)
+            </div>
+
+            <h2 style="text-align: center; color: #ff6600; margin-top: 30px; margin-bottom: 20px;">
+                📱 ANÚNCIOS ESTRUTURADOS DA PÁGINA 1
+            </h2>
+
+            <div class="anuncios-grid">
+                <!-- Anúncio 1 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #1 ⭐ PROMOÇÃO ESPECIAL</div>
+                    <div class="card-nome">Refrigerador 2 Portas Cycle Defrost 294L</div>
+                    <div class="card-marca">MIDEA • Modelo: MDRT411FGF011</div>
+                    <div class="card-specs">Branco | 127V | Cycle Defrost | 294L</div>
+                    <div class="card-preco">R$ 2.199,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 2 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #2 🔊 TECNOLOGIA</div>
+                    <div class="card-nome">Auto Rádio 10" Central Multimídia</div>
+                    <div class="card-marca">ROADSTAR • Modelo: RS10200BR</div>
+                    <div class="card-specs">Tela 10" | Bluetooth | USB</div>
+                    <div class="card-preco">R$ 549,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 3 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #3 🔥 SUPER PROMOÇÃO</div>
+                    <div class="card-nome">Ferro a Vapor Bravo Cerâmico</div>
+                    <div class="card-marca">AGRATTO • Modelo: FC-01</div>
+                    <div class="card-specs">127V | Placa Cerâmica</div>
+                    <div class="card-preco">R$ 69,90</div>
+                    <div class="card-parcelamento">💳 À vista</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 4 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #4 ⭐ BEST SELLER</div>
+                    <div class="card-nome">Lavadora 10kg Semi-Automática</div>
+                    <div class="card-marca">LIBELL • Modelo: 12661/12662</div>
+                    <div class="card-specs">10kg | Branca | 127V</div>
+                    <div class="card-preco">R$ 479,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 5 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #5 🍖 ENTRETENIMENTO</div>
+                    <div class="card-nome">Grill Elétrico Grande</div>
+                    <div class="card-marca">BE.SMART • Modelo: BSGR100</div>
+                    <div class="card-specs">Preto | 127V | Grande</div>
+                    <div class="card-preco">R$ 499,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 6 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #6 ✨ QUALIDADE</div>
+                    <div class="card-nome">Centrífuga 10kg Cat Comfort</div>
+                    <div class="card-marca">WANKE • Modelo: CWAT100</div>
+                    <div class="card-specs">10kg | Branca | 110V</div>
+                    <div class="card-preco">R$ 549,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 7 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #7 ☕ ELEGÂNCIA</div>
+                    <div class="card-nome">Chaleira Elétrica de Vidro com Luz 2L</div>
+                    <div class="card-marca">POLAK • Modelo: PK7053</div>
+                    <div class="card-specs">2L | 127V | Com Iluminação</div>
+                    <div class="card-preco">R$ 179,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 8 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #8 🎵 PORTABILIDADE</div>
+                    <div class="card-nome">Caixa de Som Portátil com USB</div>
+                    <div class="card-marca">ELITE • Modelo: PKR4238</div>
+                    <div class="card-specs">8W | USB | Bluetooth</div>
+                    <div class="card-preco">R$ 179,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA 2 DO TABLOIDE -->
+        <div class="tabloide-section">
+            <div class="tabloide-titulo">📄 PÁGINA 2 DO TABLOIDE ORIGINAL</div>
+
+            <div class="pagina-info">
+                🖼️ INSIRA A IMAGEM DA PÁGINA 2 AQUI 🖼️
+            </div>
+
+            <div class="imagem-placeholder">
+                Cole a imagem da página 2 do tabloide aqui<br>
+                (Tamanho: Máximo 800px de largura)
+            </div>
+
+            <h2 style="text-align: center; color: #ff6600; margin-top: 30px; margin-bottom: 20px;">
+                📱 ANÚNCIOS ESTRUTURADOS DA PÁGINA 2
+            </h2>
+
+            <div class="anuncios-grid">
+                <!-- Anúncio 9 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #9 🍕 VERSATILIDADE</div>
+                    <div class="card-nome">Forno Elétrico 48L Plus com Rotisseria</div>
+                    <div class="card-marca">BEST • Modelo: 3411</div>
+                    <div class="card-specs">48L | Preto/Branco | 127V</div>
+                    <div class="card-preco">R$ 499,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 10 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #10 💚 SAÚDE</div>
+                    <div class="card-nome">Fritadeira Elétrica Air Fryer 3,5L</div>
+                    <div class="card-marca">LIBELL • Modelo: 14713</div>
+                    <div class="card-specs">3,5L | Preta | 127V</div>
+                    <div class="card-preco">R$ 199,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 11 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #11 ⚡ PRATICIDADE</div>
+                    <div class="card-nome">Sanduicheira Grill 2 em 1</div>
+                    <div class="card-marca">BE.SMART • Modelo: CM12</div>
+                    <div class="card-specs">Preta | 127V | Antaderente</div>
+                    <div class="card-preco">R$ 179,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 12 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #12 🔥 LAZER</div>
+                    <div class="card-nome">Churrasqueira Tambor Pequena</div>
+                    <div class="card-marca">Diversos • Modelo: 478</div>
+                    <div class="card-specs">Pequena | Portátil</div>
+                    <div class="card-preco">R$ 178,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 13 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #13 💪 POTÊNCIA</div>
+                    <div class="card-nome">Liquidificador 1,5L 850W</div>
+                    <div class="card-marca">AGRATTO • Modelo: ALIQ02</div>
+                    <div class="card-specs">1,5L | 850W | Vermelho</div>
+                    <div class="card-preco">R$ 899,00</div>
+                    <div class="card-parcelamento">💳 À vista</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 14 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #14 📺 ENTRETENIMENTO</div>
+                    <div class="card-nome">TV 32" Grandes Marcas</div>
+                    <div class="card-marca">Diversas • Marcas Conceituadas</div>
+                    <div class="card-specs">32" | Full HD | Smart TV</div>
+                    <div class="card-preco">R$ 899,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 15 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #15 🍳 ESSENCIAL</div>
+                    <div class="card-nome">Fogão 4 Bocas Braslar</div>
+                    <div class="card-marca">BRASLAR • Modelo: 6456/322</div>
+                    <div class="card-specs">4 Bocas | Forno | Aço</div>
+                    <div class="card-preco">R$ 459,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 16 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #16 🔥 CONFORTO</div>
+                    <div class="card-nome">Aquecedor de Ar Portátil</div>
+                    <div class="card-marca">BE.SMART • Modelo: CM8</div>
+                    <div class="card-specs">127V | Compacto | Eficiente</div>
+                    <div class="card-preco">R$ 89,90</div>
+                    <div class="card-parcelamento">💳 À vista</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+            </div>
+
+            <!-- Mais anúncios de móveis -->
+            <h2 style="text-align: center; color: #ff6600; margin-top: 40px; margin-bottom: 20px;">
+                🛋️ ANÚNCIOS DE MÓVEIS E POLTRONAS
+            </h2>
+
+            <div class="anuncios-grid">
+                <!-- Anúncio 17 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #17 👔 ORGANIZAÇÃO</div>
+                    <div class="card-nome">Roupeiro 2 Portas Deslizantes</div>
+                    <div class="card-marca">BRIZ HENN • Modelo: 13830</div>
+                    <div class="card-specs">2 Portas | 2 Gavetas | Espelho</div>
+                    <div class="card-preco">R$ 599,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 18 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #18 📦 FUNCIONALIDADE</div>
+                    <div class="card-nome">Cômoda 5 Gavetas</div>
+                    <div class="card-marca">SIRIUS VILA RICA • Modelo: 12108</div>
+                    <div class="card-specs">5 Gavetas | Pé Elevado</div>
+                    <div class="card-preco">R$ 599,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 19 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #19 😍 CONFORTO MÁXIMO</div>
+                    <div class="card-nome">Estofado 3x2 Lugares</div>
+                    <div class="card-marca">PARIS ESTOFADOS • Paraná</div>
+                    <div class="card-specs">3x2 Lugares | Tecido Premium</div>
+                    <div class="card-preco">R$ 1.499,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 20 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #20 🚀 INOVAÇÃO</div>
+                    <div class="card-nome">Roupeiro Fit 2 Portas</div>
+                    <div class="card-marca">SANTOS ANDIRA • Modelo: 13668</div>
+                    <div class="card-specs">2 Portas | Design Moderno</div>
+                    <div class="card-preco">R$ 649,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 21 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #21 😴 BOM REPOUSO</div>
+                    <div class="card-nome">Conjunto Box Conjugado Casal</div>
+                    <div class="card-marca">AC COLCHÕES • Modelo: 12749</div>
+                    <div class="card-specs">Casal 1.38cm | Várias Cores</div>
+                    <div class="card-preco">R$ 599,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 22 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #22 👑 PREMIUM</div>
+                    <div class="card-nome">Conjunto Box 138x188cm</div>
+                    <div class="card-marca">APOLO SPUMA • Sublime Prime</div>
+                    <div class="card-specs">Mola Ensacada | Premium</div>
+                    <div class="card-preco">R$ 1.099,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 23 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #23 💰 ECONOMIA</div>
+                    <div class="card-nome">Kit Cozinha 1.20M Valparaíso</div>
+                    <div class="card-marca">DACHERI • Modelo: 1133</div>
+                    <div class="card-specs">MDP | Freijo/Baunilha</div>
+                    <div class="card-preco">R$ 599,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 24 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #24 🏠 ESPAÇO REDUZIDO</div>
+                    <div class="card-nome">Cozinha Compacta 123cm Sophia</div>
+                    <div class="card-marca">MÓVEIS SUL • Modelo: 14766</div>
+                    <div class="card-specs">Sem Tampo | 123cm</div>
+                    <div class="card-preco">R$ 599,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 25 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #25 ✨ COMPLETA</div>
+                    <div class="card-nome">Cozinha 6 Peças Jade 315cm</div>
+                    <div class="card-marca">DACHERI • Modelo: 14786</div>
+                    <div class="card-specs">6 Peças | Jade | Premium</div>
+                    <div class="card-preco">R$ 2.299,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 26 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #26 🎯 VERSATILIDADE</div>
+                    <div class="card-nome">Armário Multiuso 2 Portas</div>
+                    <div class="card-marca">ARAMOVEIS • Modelo: 13679</div>
+                    <div class="card-specs">2 Portas | New 900</div>
+                    <div class="card-preco">R$ 249,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 27 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #27 ✨ LIMPEZA FÁCIL</div>
+                    <div class="card-nome">Balcão 1.19M MDP Branco</div>
+                    <div class="card-marca">DACHERI • Modelo: 14287</div>
+                    <div class="card-specs">1.19M | Branco | Pé Elevado</div>
+                    <div class="card-preco">R$ 299,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 28 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #28 💪 DURÁVEL</div>
+                    <div class="card-nome">Pia 1.20M com Válvula</div>
+                    <div class="card-marca">Marcas Selecionadas</div>
+                    <div class="card-specs">1.20M | Cimentada</div>
+                    <div class="card-preco">R$ 249,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 29 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #29 👨‍👩‍👧‍👦 FAMÍLIA</div>
+                    <div class="card-nome">Jogo de Mesa com 4 Cadeiras</div>
+                    <div class="card-marca">VIERO • Modelo: 14981</div>
+                    <div class="card-specs">Mesa Redonda 90x90</div>
+                    <div class="card-preco">R$ 999,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 30 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #30 📺 HOME THEATER</div>
+                    <div class="card-nome">Painel para TV 1.20M Navi</div>
+                    <div class="card-marca">BECHARA • Modelo: 14957</div>
+                    <div class="card-specs">1.20M | Navi | Moderno</div>
+                    <div class="card-preco">R$ 289,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+
+                <!-- Anúncio 31 -->
+                <div class="anuncio-card">
+                    <div class="card-numero">ANÚNCIO #31 🛋️ FUNCIONAL</div>
+                    <div class="card-nome">Estofado 2.00M Retrátil</div>
+                    <div class="card-marca">MACIEL ESTOFADOS • Modelo: 8361</div>
+                    <div class="card-specs">2.00M | Retrátil | Reclinável</div>
+                    <div class="card-preco">R$ 1.299,00</div>
+                    <div class="card-parcelamento">💳 Parcelado: 1+14x</div>
+                    <div class="card-contato">📞 (42) 99989-0217</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo de Produtos -->
+        <div class="tabloide-section">
+            <div class="produtos-por-categoria">
+                <strong>📊 RESUMO DE PRODUTOS POR CATEGORIA:</strong>
+                <div class="categoria">
+                    🔌 <strong>Eletrodomésticos:</strong> 16 produtos (Fogão, Geladeira, Lavadora, Centrífuga, Fritadeira, Air Fryer, Forno, etc)
+                </div>
+                <div class="categoria">
+                    📱 <strong>Eletrônicos:</strong> 8 produtos (TV, Rádio, Caixas de Som, Chaleira Elétrica, etc)
+                </div>
+                <div class="categoria">
+                    🛋️ <strong>Móveis e Sofás:</strong> 7 produtos (Sofás, Roupeiros, Cômodas, Estofados, Cozinhas, etc)
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-section">
+            <h2>📥 ARQUIVOS DISPONÍVEIS PARA DOWNLOAD</h2>
+            <p style="margin-bottom: 20px;">Você tem três arquivos prontos para usar:</p>
+            <div>
+                <a href="ANUNCIOS_COMPLETOS.md" class="download-btn" download>
+                    📄 Arquivo Markdown Completo
+                </a>
+                <a href="Anuncios_Individuais_Produtos_MDL.html" class="download-btn" download>
+                    🌐 Arquivo HTML com Styling
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <strong>MDL - Móveis do Lar</strong><br>
+            Ofertas válidas para Maio de 2026 ou enquanto durar o estoque!<br>
+            <br>
+            💳 Crédito próprio em até 15x | 📦 Frete disponível | ⏰ Quantidade limitada<br>
+            Fotos e objetos são meramente ilustrativos<br>
+            <br>
+            <strong>Localidades:</strong><br>
+            Castro (Centro) • Castro (Vila Santa Cruz) • Castro (Vila Rio Branco)<br>
+            Piraí do Sul • Abapan • Socavão • Carambeí • Tibagi<br>
+            <br>
+            📞 (42) 99989-0217 • 📱 @lojasmdloficial
+        </div>
+    </div>
+</body>
+</html>
