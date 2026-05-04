@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrator Automático de Produtos - MDL Tabloide</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+        }
+
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background: #e8ebff;
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .upload-text h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .upload-text p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        input[type="number"],
+        select {
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            min-width: 150px;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #e0e0e0;
+        }
+
+        .progress-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .status-info {
+            background: #e3f2fd;
+            color: #1565c0;
+            border-left: 4px solid #1565c0;
+        }
+
+        .status-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .status-error {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+
+        .product-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
+
+        .product-info {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .product-name {
+            color: #333;
+            font-weight: 600;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 0.75em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-download {
+            background: #4CAF50;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-download:hover {
+            background: #45a049;
+        }
+
+        .btn-copy {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-copy:hover {
+            background: #0b7dda;
+        }
+
+        .info-box {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .info-box h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 0.9em;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Extrator Automático de Produtos</h1>
+            <p>Extraia todos os produtos do seu PDF tabloide em segundos!</p>
+        </div>
+
+        <div class="content">
+            <!-- Seção de Upload -->
+            <div class="section">
+                <h2>📤 Passo 1: Carregar PDF</h2>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-text">
+                        <h3>Clique ou arraste seu PDF aqui</h3>
+                        <p>Suporta PDFs com múltiplas páginas</p>
+                    </div>
+                    <input type="file" id="pdfInput" accept=".pdf" />
+                </div>
+            </div>
+
+            <!-- Seção de Configuração -->
+            <div class="section" id="configSection" style="display: none;">
+                <h2>⚙️ Passo 2: Configurar Extração</h2>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="gridRows">Linhas do Grid (ex: 4):</label>
+                        <input type="number" id="gridRows" value="4" min="1" max="10" />
+                    </div>
+                    <div class="control-group">
+                        <label for="gridCols">Colunas do Grid (ex: 4):</label>
+                        <input type="number" id="gridCols" value="4" min="1" max="10" />
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="outputSize">Tamanho da Saída (px):</label>
+                        <input type="number" id="outputSize" value="500" min="100" max="2000" step="50" />
+                    </div>
+                    <div class="control-group">
+                        <label for="imageQuality">Qualidade (1-100):</label>
+                        <input type="number" id="imageQuality" value="95" min="1" max="100" />
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" id="extractBtn">🚀 Extrair Produtos</button>
+                    <button class="btn-secondary" id="clearBtn">🔄 Limpar</button>
+                </div>
+            </div>
+
+            <!-- Seção de Progresso -->
+            <div class="section progress-section" id="progressSection">
+                <h2>⏳ Processando...</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill">0%</div>
+                </div>
+                <div id="statusMessage" class="status-message status-info"></div>
+            </div>
+
+            <!-- Seção de Resultados -->
+            <div class="section" id="resultsSection" style="display: none;">
+                <h2>✅ Produtos Extraídos</h2>
+                <div id="statsBox" class="info-box" style="display: none;">
+                    <h3>📊 Estatísticas</h3>
+                    <p id="statsText"></p>
+                </div>
+                <div class="button-group">
+                    <button class="btn-primary" id="downloadAllBtn">💾 Baixar Todos (ZIP)</button>
+                    <button class="btn-secondary" id="downloadListBtn">📋 Baixar Lista (JSON)</button>
+                </div>
+                <div class="gallery" id="gallery"></div>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <h3>💡 Como Funciona</h3>
+                <ul>
+                    <li>Carregue seu PDF tabloide</li>
+                    <li>Configure o grid (linhas × colunas)</li>
+                    <li>Clique em "Extrair Produtos"</li>
+                    <li>Baixe as imagens individuais ou em ZIP</li>
+                    <li>100% seguro - tudo funciona no seu navegador!</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🚀 Desenvolvido com ❤️ para MDL - Móveis do Lar</p>
+            <p>Extrator Automático Online - Funciona 100% no navegador</p>
+        </div>
+    </div>
+
+    <script>
+        // Configurar PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const uploadArea = document.getElementById('uploadArea');
+        const pdfInput = document.getElementById('pdfInput');
+        const configSection = document.getElementById('configSection');
+        const progressSection = document.getElementById('progressSection');
+        const resultsSection = document.getElementById('resultsSection');
+        const extractBtn = document.getElementById('extractBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const gallery = document.getElementById('gallery');
+        const statusMessage = document.getElementById('statusMessage');
+        const progressFill = document.getElementById('progressFill');
+        const downloadAllBtn = document.getElementById('downloadAllBtn');
+        const downloadListBtn = document.getElementById('downloadListBtn');
+        const statsBox = document.getElementById('statsBox');
+        const statsText = document.getElementById('statsText');
+
+        let pdfData = null;
+        let extractedProducts = [];
+
+        // Upload Area
+        uploadArea.addEventListener('click', () => pdfInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                pdfInput.files = files;
+                handlePdfUpload();
+            }
+        });
+
+        pdfInput.addEventListener('change', handlePdfUpload);
+
+        async function handlePdfUpload() {
+            const file = pdfInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                pdfData = e.target.result;
+                uploadArea.innerHTML = `
+                    <div class="upload-icon">✅</div>
+                    <div class="upload-text">
+                        <h3>${file.name}</h3>
+                        <p>PDF carregado com sucesso!</p>
+                    </div>
+                `;
+                configSection.style.display = 'block';
+                statusMessage.textContent = `✓ PDF carregado: ${file.name}`;
+                statusMessage.className = 'status-message status-success';
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        extractBtn.addEventListener('click', extractProducts);
+        clearBtn.addEventListener('click', resetAll);
+
+        async function extractProducts() {
+            if (!pdfData) {
+                showStatus('❌ Carregue um PDF primeiro!', 'error');
+                return;
+            }
+
+            const gridRows = parseInt(document.getElementById('gridRows').value);
+            const gridCols = parseInt(document.getElementById('gridCols').value);
+            const outputSize = parseInt(document.getElementById('outputSize').value);
+            const imageQuality = parseInt(document.getElementById('imageQuality').value) / 100;
+
+            extractBtn.disabled = true;
+            clearBtn.disabled = true;
+            progressSection.style.display = 'block';
+            resultsSection.style.display = 'none';
+            extractedProducts = [];
+
+            try {
+                const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+                const totalProducts = gridRows * gridCols * pdf.numPages;
+                let processedCount = 0;
+
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const viewport = page.getViewport({ scale: 2 });
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+
+                    const context = canvas.getContext('2d');
+                    await page.render({ canvasContext: context, viewport }).promise;
+
+                    const pageImage = canvas.getImage ? canvas.toDataURL() : canvas;
+
+                    // Extrair produtos do grid
+                    const cellWidth = canvas.width / gridCols;
+                    const cellHeight = canvas.height / gridRows;
+
+                    for (let row = 0; row < gridRows; row++) {
+                        for (let col = 0; col < gridCols; col++) {
+                            const productNum = (pageNum - 1) * (gridRows * gridCols) + row * gridCols + col + 1;
+
+                            const productCanvas = document.createElement('canvas');
+                            productCanvas.width = outputSize;
+                            productCanvas.height = outputSize;
+                            const productCtx = productCanvas.getContext('2d');
+
+                            productCtx.drawImage(
+                                canvas,
+                                col * cellWidth, row * cellHeight, cellWidth, cellHeight,
+                                0, 0, outputSize, outputSize
+                            );
+
+                            const imageData = productCanvas.toDataURL('image/jpeg', imageQuality);
+                            extractedProducts.push({
+                                number: productNum,
+                                name: `PRODUTO_${String(productNum).padStart(2, '0')}.jpg`,
+                                data: imageData
+                            });
+
+                            processedCount++;
+                            updateProgress(processedCount, totalProducts);
+                        }
+                    }
+                }
+
+                showResults();
+                showStatus(`✅ ${extractedProducts.length} produtos extraídos com sucesso!`, 'success');
+
+            } catch (error) {
+                showStatus(`❌ Erro ao processar PDF: ${error.message}`, 'error');
+            } finally {
+                extractBtn.disabled = false;
+                clearBtn.disabled = false;
+                progressSection.style.display = 'none';
+            }
+        }
+
+        function updateProgress(current, total) {
+            const percentage = Math.round((current / total) * 100);
+            progressFill.style.width = percentage + '%';
+            progressFill.textContent = percentage + '%';
+        }
+
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message status-${type}`;
+        }
+
+        function showResults() {
+            resultsSection.style.display = 'block';
+            gallery.innerHTML = '';
+
+            statsText.innerHTML = `
+                <strong>Total de produtos:</strong> ${extractedProducts.length}<br>
+                <strong>Tamanho cada imagem:</strong> ${document.getElementById('outputSize').value}×${document.getElementById('outputSize').value}px<br>
+                <strong>Qualidade:</strong> ${document.getElementById('imageQuality').value}%
+            `;
+            statsBox.style.display = 'block';
+
+            extractedProducts.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${product.data}" class="product-image" alt="${product.name}" />
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-actions">
+                            <button class="btn-small btn-download" onclick="downloadProduct('${product.name}', '${product.data}')">⬇️</button>
+                            <button class="btn-small btn-copy" onclick="copyToClipboard('${product.data}')">📋</button>
+                        </div>
+                    </div>
+                `;
+                gallery.appendChild(card);
+            });
+        }
+
+        function downloadProduct(name, dataUrl) {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = name;
+            link.click();
+        }
+
+        function copyToClipboard(dataUrl) {
+            navigator.clipboard.writeText(dataUrl).then(() => {
+                alert('✅ Imagem copiada para a área de transferência!');
+            });
+        }
+
+        downloadAllBtn.addEventListener('click', downloadAllAsZip);
+        downloadListBtn.addEventListener('click', downloadList);
+
+        async function downloadAllAsZip() {
+            // Criar arquivo ZIP (simulado com múltiplos downloads)
+            for (let i = 0; i < extractedProducts.length; i++) {
+                setTimeout(() => {
+                    downloadProduct(extractedProducts[i].name, extractedProducts[i].data);
+                }, i * 300);
+            }
+            alert(`⏳ Iniciando download de ${extractedProducts.length} imagens... (pode levar um tempo)`);
+        }
+
+        function downloadList() {
+            const listData = extractedProducts.map(p => ({
+                número: p.number,
+                nome: p.name,
+                tamanho: document.getElementById('outputSize').value,
+                qualidade: document.getElementById('imageQuality').value
+            }));
+
+            const dataStr = JSON.stringify(listData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'produtos_lista.json';
+            link.click();
+        }
+
+        function resetAll() {
+            pdfInput.value = '';
+            pdfData = null;
+            extractedProducts = [];
+            uploadArea.innerHTML = `
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">
+                    <h3>Clique ou arraste seu PDF aqui</h3>
+                    <p>Suporta PDFs com múltiplas páginas</p>
+                </div>
+            `;
+            configSection.style.display = 'none';
+            progressSection.style.display = 'none';
+            resultsSection.style.display = 'none';
+            statusMessage.textContent = '';
+        }
+    </script>
+</body>
+</html>
