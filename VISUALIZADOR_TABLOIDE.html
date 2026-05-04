@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de Tabloide - MDL Móveis do Lar</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6600 0%, #ff8833 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: white;
+            color: #ff6600;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .loader {
+            text-align: center;
+            padding: 40px 20px;
+            color: #ff6600;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,102,0,0.2);
+            border-top: 4px solid #ff6600;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .pages-container {
+            display: grid;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-wrapper {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .page-header {
+            background: #ff6600;
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+        }
+
+        .page-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .page-content canvas {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+
+        .error {
+            background: #fee;
+            border: 2px solid #f99;
+            color: #c33;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        .error h3 {
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: #e8f4f8;
+            border-left: 4px solid #ff6600;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 4px;
+        }
+
+        .info-box h3 {
+            color: #ff6600;
+            margin-bottom: 8px;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            padding: 8px 15px;
+            background: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #ff8833;
+        }
+
+        @media print {
+            .header, .controls, .info-box, .download-buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="header">
+            <h1>📑 Visualizador de Tabloide</h1>
+            <p>MDL - Móveis do Lar</p>
+
+            <div class="controls">
+                <div class="file-input-wrapper">
+                    <input type="file" id="pdfFile" accept=".pdf" />
+                    <button class="btn" onclick="document.getElementById('pdfFile').click()">
+                        📂 Carregar PDF
+                    </button>
+                </div>
+                <span class="status" id="status">Pronto para carregar um PDF</span>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="info-box">
+                <h3>📌 Como Usar</h3>
+                <p>1. Clique em "Carregar PDF" e selecione o arquivo do tabloide MDL</p>
+                <p>2. As páginas serão exibidas automaticamente abaixo</p>
+                <p>3. Você pode imprimir ou salvar as imagens usando o botão direto do navegador</p>
+                <p>4. Use Ctrl+P (ou Cmd+P) para imprimir diretamente</p>
+            </div>
+
+            <div id="container"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configurar PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const fileInput = document.getElementById('pdfFile');
+        const container = document.getElementById('container');
+        const status = document.getElementById('status');
+
+        fileInput.addEventListener('change', handleFileSelect);
+
+        async function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            container.innerHTML = '<div class="loader"><p>Carregando PDF...</p><div class="spinner"></div></div>';
+            status.textContent = 'Processando...';
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+                status.textContent = `✓ PDF carregado (${pdf.numPages} página(s))`;
+
+                container.innerHTML = '<div class="pages-container" id="pages"></div>';
+                const pagesDiv = document.getElementById('pages');
+
+                // Renderizar cada página
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+
+                    // Definir viewport
+                    const viewport = page.getViewport({ scale: 2.0 });
+
+                    // Criar canvas
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+
+                    // Renderizar página
+                    await page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise;
+
+                    // Criar elemento de página
+                    const pageWrapper = document.createElement('div');
+                    pageWrapper.className = 'page-wrapper';
+
+                    const pageHeader = document.createElement('div');
+                    pageHeader.className = 'page-header';
+                    pageHeader.textContent = `📄 Página ${pageNum}`;
+
+                    const pageContent = document.createElement('div');
+                    pageContent.className = 'page-content';
+                    pageContent.appendChild(canvas);
+
+                    // Adicionar botão de download
+                    const downloadBtn = document.createElement('button');
+                    downloadBtn.className = 'btn-secondary';
+                    downloadBtn.textContent = '⬇️ Salvar Imagem';
+                    downloadBtn.onclick = () => downloadImage(canvas, `pagina-${pageNum}`);
+
+                    const buttonsDiv = document.createElement('div');
+                    buttonsDiv.className = 'download-buttons';
+                    buttonsDiv.appendChild(downloadBtn);
+
+                    pageWrapper.appendChild(pageHeader);
+                    pageWrapper.appendChild(pageContent);
+                    pageWrapper.appendChild(buttonsDiv);
+
+                    pagesDiv.appendChild(pageWrapper);
+                }
+
+                status.textContent = `✓ ${pdf.numPages} página(s) carregadas com sucesso!`;
+
+            } catch (error) {
+                console.error('Erro:', error);
+                container.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Erro ao carregar PDF</h3>
+                        <p>${error.message}</p>
+                        <p>Certifique-se de que o arquivo é um PDF válido.</p>
+                    </div>
+                `;
+                status.textContent = 'Erro ao carregar';
+            }
+        }
+
+        function downloadImage(canvas, filename) {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = `${filename}.png`;
+            link.click();
+        }
+    </script>
+</body>
+</html>
