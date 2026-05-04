@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anúncios Individuais - MDL Móveis do Lar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6600 0%, #ff8533 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            font-style: italic;
+            opacity: 0.95;
+        }
+
+        .anuncio {
+            background: white;
+            border-left: 5px solid #ff6600;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            page-break-inside: avoid;
+        }
+
+        .anuncio-numero {
+            font-size: 0.9em;
+            color: #999;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .destaque {
+            background: linear-gradient(135deg, #ff6600 0%, #ffaa00 100%);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .anuncio-nome {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #000;
+            text-align: center;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .anuncio-marca {
+            text-align: center;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .anuncio-specs {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .anuncio-descricao {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            padding: 12px;
+            background: #f0f7ff;
+            border-left: 3px solid #0066cc;
+            border-radius: 4px;
+        }
+
+        .preco-container {
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .preco {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .parcelamento {
+            font-size: 1.1em;
+            color: #0066ff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .contato {
+            background: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .separator {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff6600, transparent);
+            margin: 30px 0;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #333 0%, #555 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 50px;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+
+        .grid-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            padding: 8px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            border-left: 3px solid #ff6600;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #ff6600;
+            font-size: 0.9em;
+        }
+
+        .info-value {
+            color: #333;
+            margin-top: 3px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .anuncio {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 ANÚNCIOS INDIVIDUAIS DE PRODUTOS</h1>
+            <p>MDL - Móveis do Lar | Maio de 2026 • Ofertas Imperdíveis!</p>
+        </div>
+
+        <!-- ANÚNCIO 1 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #1</div>
+            <div class="destaque">⭐ PROMOÇÃO ESPECIAL ⭐</div>
+            <div class="anuncio-nome">Refrigerador 2 Portas Cycle Defrost 294L</div>
+            <div class="anuncio-marca">MIDEA • Modelo: MDRT411FGF011</div>
+            <div class="anuncio-specs">Branco | 127V | Cycle Defrost | 294L</div>
+            <div class="anuncio-descricao">💬 Mantenha seus alimentos frescos por mais tempo com tecnologia Cycle Defrost. Design moderno e eficiente para sua cozinha. Economia de energia garantida!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 2.199,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 2 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #2</div>
+            <div class="destaque">🔊 TECNOLOGIA EM SEU CARRO 🔊</div>
+            <div class="anuncio-nome">Auto Rádio 10" Central Multimídia</div>
+            <div class="anuncio-marca">ROADSTAR • Modelo: RS10200BR</div>
+            <div class="anuncio-specs">Tela 10" | Bluetooth | USB | Touchscreen</div>
+            <div class="anuncio-descricao">💬 Transforme sua experiência no carro com essa central multimídia moderna. Som de qualidade, conectividade Bluetooth e entrada USB para seus dispositivos.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 549,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 3 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #3</div>
+            <div class="destaque">🔥 SUPER PROMOÇÃO 🔥</div>
+            <div class="anuncio-nome">Ferro a Vapor Bravo Cerâmico</div>
+            <div class="anuncio-marca">AGRATTO • Modelo: FC-01</div>
+            <div class="anuncio-specs">127V | Placa Cerâmica Antaderente | Vaporizador</div>
+            <div class="anuncio-descricao">💬 Roupas sempre perfeitas! Com placa cerâmica que desliza suavemente, deixando suas roupas sem rugas. Prático e eficiente para o dia a dia.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 69,90</div>
+                <div class="parcelamento">💳 À vista - Preço imperdível!</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 4 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #4</div>
+            <div class="destaque">⭐ BEST SELLER ⭐</div>
+            <div class="anuncio-nome">Lavadora 10kg Semi-Automática</div>
+            <div class="anuncio-marca">LIBELL • Modelo: 12661/12662</div>
+            <div class="anuncio-specs">10kg | Branca | 127V | Semi-Automática</div>
+            <div class="anuncio-descricao">💬 Lavagem potente e eficiente. Ideal para famílias que buscam praticidade e economia de água e energia. Robusta e durável para longo uso.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 479,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 5 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #5</div>
+            <div class="destaque">🍖 ENTRETENIMENTO 🍖</div>
+            <div class="anuncio-nome">Grill Elétrico Grande</div>
+            <div class="anuncio-marca">BE.SMART • Modelo: BSGR100</div>
+            <div class="anuncio-specs">Preto | 127V | Grande Capacidade | Antaderente</div>
+            <div class="anuncio-descricao">💬 Grelhe à perfeição! Ideal para reuniões com amigos e família. Preparação rápida e resultados deliciosos. Sem fumça, fácil de limpar.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 499,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 6 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #6</div>
+            <div class="destaque">✨ QUALIDADE ✨</div>
+            <div class="anuncio-nome">Centrífuga 10kg Cat Comfort</div>
+            <div class="anuncio-marca">WANKE • Modelo: CWAT100</div>
+            <div class="anuncio-specs">10kg | Branca | 110V | Silenciosa</div>
+            <div class="anuncio-descricao">💬 Seque suas roupas rapidamente com eficiência. Tecnologia Cat Comfort garante cuidado com seus tecidos. Funcionamento silencioso para sua comodidade.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 549,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 7 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #7</div>
+            <div class="destaque">☕ ELEGÂNCIA ☕</div>
+            <div class="anuncio-nome">Chaleira Elétrica de Vidro com Luz 2L</div>
+            <div class="anuncio-marca">POLAK • Modelo: PK7053</div>
+            <div class="anuncio-specs">2L | 127V | Vidro Transparente | Com Iluminação</div>
+            <div class="anuncio-descricao">💬 Água quentinha em minutos! Design elegante que decora sua cozinha. Perfeita para chás, cafés e bebidas quentes. Vidro resistente e seguro.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 179,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 8 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #8</div>
+            <div class="destaque">🎵 PORTABILIDADE 🎵</div>
+            <div class="anuncio-nome">Caixa de Som Portátil com USB</div>
+            <div class="anuncio-marca">ELITE • Modelo: PKR4238</div>
+            <div class="anuncio-specs">8W | USB | Bluetooth | Bateria Durável</div>
+            <div class="anuncio-descricao">💬 Leve sua música para qualquer lugar! Som cristalino e bateria durável. Ideal para festas, passeios e viagens. Compacta e resistente.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 179,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 9 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #9</div>
+            <div class="destaque">🍕 VERSATILIDADE 🍕</div>
+            <div class="anuncio-nome">Forno Elétrico 48L Plus com Rotisseria</div>
+            <div class="anuncio-marca">BEST • Modelo: 3411</div>
+            <div class="anuncio-specs">48L | Preto/Branco | 127V | Com Rotisseria</div>
+            <div class="anuncio-descricao">💬 Cozinhe como um profissional! Assados, pizzas e mais. Capacidade grande para toda sua família. Aquecimento uniforme e resistência durável.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 499,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 10 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #10</div>
+            <div class="destaque">💚 SAÚDE 💚</div>
+            <div class="anuncio-nome">Fritadeira Elétrica Air Fryer 3,5L</div>
+            <div class="anuncio-marca">LIBELL • Modelo: 14713</div>
+            <div class="anuncio-specs">3,5L | Preta | 127V | Air Fryer</div>
+            <div class="anuncio-descricao">💬 Frituras saudáveis! Com tecnologia Air Fryer, reduz o uso de óleo. Crocante por fora, macio por dentro. Perfeita para uma vida mais saudável.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 199,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 11 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #11</div>
+            <div class="destaque">⚡ PRATICIDADE ⚡</div>
+            <div class="anuncio-nome">Sanduicheira Grill 2 em 1</div>
+            <div class="anuncio-marca">BE.SMART • Modelo: CM12</div>
+            <div class="anuncio-specs">Preta | 127V | Duas Funções | Antaderente</div>
+            <div class="anuncio-descricao">💬 Sanduíches e grelhados perfeitos! Rápido e prático para o dia a dia. Limpeza fácil e design moderno. Ideal para café da manhã especial.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 179,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 12 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #12</div>
+            <div class="destaque">🔥 LAZER 🔥</div>
+            <div class="anuncio-nome">Churrasqueira Tambor Pequena</div>
+            <div class="anuncio-marca">Diversos • Modelo: 478</div>
+            <div class="anuncio-specs">Pequena | Portátil | Fácil de Transportar</div>
+            <div class="anuncio-descricao">💬 Churrasco em qualquer lugar! Perfeita para sítios, churrascos de família e acampamentos. Fácil de transportar e montar. Diversão garantida!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 178,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 13 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #13</div>
+            <div class="destaque">💪 POTÊNCIA 💪</div>
+            <div class="anuncio-nome">Liquidificador 1,5L 850W</div>
+            <div class="anuncio-marca">AGRATTO • Modelo: ALIQ02</div>
+            <div class="anuncio-specs">1,5L | 850W | Vermelho | 127V</div>
+            <div class="anuncio-descricao">💬 Bebidas deliciosas em segundos! Potência máxima para sucos, vitaminas e smoothies. Qualidade durável e resistente. Sua vida mais saudável começa aqui!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 899,00</div>
+                <div class="parcelamento">💳 À vista - Ofertas imperdível!</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 14 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #14</div>
+            <div class="destaque">📺 ENTRETENIMENTO 📺</div>
+            <div class="anuncio-nome">TV 32" Grandes Marcas</div>
+            <div class="anuncio-marca">Diversas • Marcas Conceituadas</div>
+            <div class="anuncio-specs">32" | Full HD | Smart TV | Selecionadas</div>
+            <div class="anuncio-descricao">💬 Imagem nítida e cores vibrantes! Assista seus programas favoritos em qualidade. Marcas confiáveis e duráveis. Sua sala de entretenimento perfeita!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 899,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 15 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #15</div>
+            <div class="destaque">🍳 ESSENCIAL 🍳</div>
+            <div class="anuncio-nome">Fogão 4 Bocas Braslar</div>
+            <div class="anuncio-marca">BRASLAR • Modelo: 6456/322</div>
+            <div class="anuncio-specs">4 Bocas | Forno Integrado | Aço Inoxidável</div>
+            <div class="anuncio-descricao">💬 Cozinhe para toda a família! 4 bocas de potência e forno integrado. Acabamento robusto e durável. O fogão que toda cozinha precisa!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 459,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 16 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #16</div>
+            <div class="destaque">🔥 CONFORTO 🔥</div>
+            <div class="anuncio-nome">Aquecedor de Ar Portátil</div>
+            <div class="anuncio-marca">BE.SMART • Modelo: CM8</div>
+            <div class="anuncio-specs">127V | Compacto | Eficiente | Portátil</div>
+            <div class="anuncio-descricao">💬 Aquecimento rápido e confortável! Ideal para salas e quartos nos dias frios. Consumo reduzido de energia. Seu aconchego garantido!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 89,90</div>
+                <div class="parcelamento">💳 À vista - Super barato!</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 17 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #17</div>
+            <div class="destaque">👔 ORGANIZAÇÃO 👔</div>
+            <div class="anuncio-nome">Roupeiro 2 Portas Deslizantes</div>
+            <div class="anuncio-marca">BRIZ HENN • Modelo: 13830</div>
+            <div class="anuncio-specs">2 Portas Corrediça | 2 Gavetas | Espelho</div>
+            <div class="anuncio-descricao">💬 Organização e elegância no seu quarto! Espaço generoso com portas que deslizam suavemente. Espelho integrado. Seu guarda-roupa perfeito!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 599,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 18 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #18</div>
+            <div class="destaque">📦 FUNCIONALIDADE 📦</div>
+            <div class="anuncio-nome">Cômoda 5 Gavetas</div>
+            <div class="anuncio-marca">SIRIUS VILA RICA • Modelo: 12108</div>
+            <div class="anuncio-specs">5 Gavetas Grandes | Pé Elevado | Moderno</div>
+            <div class="anuncio-descricao">💬 Armazene tudo com estilo! Design clássico que combina com qualquer decoração. Gavetas espaçosas e funcionais. Qualidade que dura!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 599,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 19 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #19</div>
+            <div class="destaque">😍 CONFORTO MÁXIMO 😍</div>
+            <div class="anuncio-nome">Estofado 3x2 Lugares</div>
+            <div class="anuncio-marca">PARIS ESTOFADOS • Paraná</div>
+            <div class="anuncio-specs">3x2 Lugares | Tecido Resistente | Premium</div>
+            <div class="anuncio-descricao">💬 Conforto e sofisticação para sua sala! Assento profundo e encosto aconchegante. Perfeito para relaxar e receber amigos. Sua sala merecida!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 1.499,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 20 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #20</div>
+            <div class="destaque">🚀 INOVAÇÃO 🚀</div>
+            <div class="anuncio-nome">Roupeiro Fit 2 Portas Deslizantes</div>
+            <div class="anuncio-marca">SANTOS ANDIRA • Modelo: 13668</div>
+            <div class="anuncio-specs">2 Portas Corrediça | Design Moderno | Compacto</div>
+            <div class="anuncio-descricao">💬 Moderno e funcional! Perfeito para quartos pequenos. Portas deslizantes economizam espaço. Design contemporâneo e sofisticado.</div>
+            <div class="preco-container">
+                <div class="preco">R$ 649,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 21 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #21</div>
+            <div class="destaque">😴 BOM REPOUSO 😴</div>
+            <div class="anuncio-nome">Conjunto Box Conjugado Casal</div>
+            <div class="anuncio-marca">AC COLCHÕES • Modelo: 12749</div>
+            <div class="anuncio-specs">Casal 1.38cm | Várias Cores | Estruturado</div>
+            <div class="anuncio-descricao">💬 Durma melhor e acorde mais feliz! Box bem estruturado para suporte perfeito. Cores sortidas para sua escolha. Sono reparador garantido!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 599,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 22 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #22</div>
+            <div class="destaque">👑 PREMIUM 👑</div>
+            <div class="anuncio-nome">Conjunto Box 138x188cm Mola Ensacada</div>
+            <div class="anuncio-marca">APOLO SPUMA • Modelo: Sublime Prime</div>
+            <div class="anuncio-specs">Mola Ensacada | Premium | Confortável</div>
+            <div class="anuncio-descricao">💬 Tecnologia mola ensacada garante conforto individual. Colchão premium para noites incríveis. Suporte perfeito para seu corpo. Qualidade máxima!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 1.099,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 23 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #23</div>
+            <div class="destaque">💰 ECONOMIA 💰</div>
+            <div class="anuncio-nome">Kit Cozinha 1.20M Valparaíso</div>
+            <div class="anuncio-marca">DACHERI • Modelo: 1133/14938</div>
+            <div class="anuncio-specs">MDP | Freijo/Baunilha | 1.20M | Compacto</div>
+            <div class="anuncio-descricao">💬 Cozinha compacta e bonita! Ideal para apartamentos pequenos. Acabamento elegante em tons naturais. Qualidade com economia!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 599,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 24 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #24</div>
+            <div class="destaque">🏠 ESPAÇO REDUZIDO 🏠</div>
+            <div class="anuncio-nome">Cozinha Compacta 123cm Sophia</div>
+            <div class="anuncio-marca">MÓVEIS SUL • Modelo: 14766</div>
+            <div class="anuncio-specs">Sem Tampo | 123cm | Compacta | Design Moderno</div>
+            <div class="anuncio-descricao">💬 Solução prática para sua cozinha! Modelo Sophia com design moderno. Sem tampo para flexibilidade total. Perfeita para pequenos espaços!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 599,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 25 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #25</div>
+            <div class="destaque">✨ COMPLETA ✨</div>
+            <div class="anuncio-nome">Cozinha 6 Peças Jade 315cm</div>
+            <div class="anuncio-marca">DACHERI • Modelo: 14786</div>
+            <div class="anuncio-specs">6 Peças | Jade 315cm | Freijo/Moka | Premium</div>
+            <div class="anuncio-descricao">💬 Cozinha completa e sofisticada! 6 peças em cores nobres. Ideal para cozinhas maiores e ambientes integrados. Qualidade excepcional!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 2.299,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 26 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #26</div>
+            <div class="destaque">🎯 VERSATILIDADE 🎯</div>
+            <div class="anuncio-nome">Armário Multiuso 2 Portas New 900</div>
+            <div class="anuncio-marca">ARAMOVEIS • Modelo: 13679</div>
+            <div class="anuncio-specs">2 Portas | Multiuso | Design New 900</div>
+            <div class="anuncio-descricao">💬 Organize tudo em um só lugar! Versátil para qualquer cômodo. Qualidade Aramoveis a preço incrível. Funcional e moderno!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 249,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 27 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #27</div>
+            <div class="destaque">✨ LIMPEZA FÁCIL ✨</div>
+            <div class="anuncio-nome">Balcão 1.19M MDP Branco</div>
+            <div class="anuncio-marca">DACHERI • Modelo: 14287</div>
+            <div class="anuncio-specs">1.19M | Branco | Sem Tampo | Pé Elevado</div>
+            <div class="anuncio-descricao">💬 Bancada moderna para sua cozinha! Pé elevado para limpeza facilitada. Branco que combina com tudo. Design prático e elegante!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 299,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 28 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #28</div>
+            <div class="destaque">💪 DURÁVEL 💪</div>
+            <div class="anuncio-nome">Pia 1.20M com Válvula</div>
+            <div class="anuncio-marca">Marcas Selecionadas • Cimentada</div>
+            <div class="anuncio-specs">1.20M | Cimentada | Escorredor Integrado</div>
+            <div class="anuncio-descricao">💬 Pia resistente e durável! Com escorredor integrado. Cimento de qualidade garante longevidade. Essencial para sua cozinha!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 249,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 29 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #29</div>
+            <div class="destaque">👨‍👩‍👧‍👦 FAMÍLIA 👨‍👩‍👧‍👦</div>
+            <div class="anuncio-nome">Jogo de Mesa com 4 Cadeiras Sicília</div>
+            <div class="anuncio-marca">VIERO • Modelo: 14981</div>
+            <div class="anuncio-specs">Mesa Redonda 90x90 | 4 Cadeiras | Clássico</div>
+            <div class="anuncio-descricao">💬 Reuniões e refeições perfeitas! Mesa redonda aconchegante com 4 cadeiras confortáveis. Estilo clássico. Momentos inesquecíveis em família!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 999,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 30 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #30</div>
+            <div class="destaque">📺 HOME THEATER 📺</div>
+            <div class="anuncio-nome">Painel para TV 1.20M Navi</div>
+            <div class="anuncio-marca">BECHARA • Modelo: 14957</div>
+            <div class="anuncio-specs">1.20M | Navi | Moderno | Design Elegante</div>
+            <div class="anuncio-descricao">💬 Organize sua TV com estilo! Painel moderno que realça seu home theater. Design contemporâneo e sofisticado. Seu lazer em casa!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 289,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <!-- ANÚNCIO 31 -->
+        <div class="anuncio">
+            <div class="anuncio-numero">ANÚNCIO #31</div>
+            <div class="destaque">🛋️ FUNCIONAL 🛋️</div>
+            <div class="anuncio-nome">Estofado 2.00M Retrátil Reclinável</div>
+            <div class="anuncio-marca">MACIEL ESTOFADOS • Modelo: 8361</div>
+            <div class="anuncio-specs">2.00M | Retrátil | Reclinável | Australia</div>
+            <div class="anuncio-descricao">💬 Máximo conforto e funcionalidade! Retrátil para relaxar e reclinável para diferentes posições. Cores sortidas. Seu cantinho perfeito!</div>
+            <div class="preco-container">
+                <div class="preco">R$ 1.299,00</div>
+                <div class="parcelamento">💳 Parcelado em: 1+14x</div>
+            </div>
+            <div class="contato">📞 (42) 99989-0217 • @lojasmdloficial</div>
+        </div>
+
+        <div class="footer">
+            <strong>MDL - Móveis do Lar</strong><br>
+            Ofertas válidas para Maio de 2026 ou enquanto durar o estoque!<br>
+            <br>
+            💳 Crédito próprio em até 15x | 📦 Frete disponível | ⏰ Quantidade limitada<br>
+            Fotos e objetos são meramente ilustrativos<br>
+            <br>
+            Siga nossas lojas: Castro (Centro) • Castro (Vila Santa Cruz) • Castro (Vila Rio Branco)<br>
+            Piraí do Sul • Abapan • Socavão • Carambeí • Tibagi<br>
+            <br>
+            📞 (42) 99989-0217 • 📱 @lojasmdloficial
+        </div>
+    </div>
+</body>
+</html>
